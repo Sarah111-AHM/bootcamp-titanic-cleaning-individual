@@ -1,123 +1,113 @@
-Project Objectives
+## Project Objectives
 
-· Clean and enhance the Titanic dataset from Kaggle using Pandas in Google Colab
-· Handle real-world data issues: missing values, duplicates, inconsistent formats
-· Engineer new features (FamilySize) and manage outliers
-· Prepare data for data science/AI tasks like visualization or predictive modeling
+- Clean and improve the Titanic dataset from Kaggle using Pandas in Google Colab  
+- Fix common data problems like missing values, duplicate rows, and inconsistent formats  
+- Create new features (for example, FamilySize) and handle unusual/outlier values  
+- Prepare the dataset so it can be used for data analysis, visualization, or AI models
 
-Key Skills Demonstrated
+## Key Skills Demonstrated
 
-· Data Cleaning: Missing value imputation (median/mode), column removal, duplicate handling
-· Data Standardization: Format normalization (lowercase strings, decimal formatting)
-· Feature Engineering: Creating derived features (FamilySize from SibSp and Parch)
-· Outlier Management: IQR method for detecting and capping outliers
-· Documentation: Step-by-step cleaning process with clear explanations
-· Reproducibility: Code structured for clear workflow and verification
+- **Data Cleaning:** Fill missing values (using median or mode), remove unnecessary columns, and handle duplicate rows  
+- **Data Standardization:** Make data consistent (for example, lowercase text and rounded numbers)  
+- **Feature Engineering:** Create new useful features like `FamilySize` from `SibSp` and `Parch`  
+- **Outlier Management:** Detect and handle unusual values using the IQR method  
+- **Documentation:** Explain each step clearly so anyone can follow your work  
+- **Reproducibility:** Organize code so the cleaning process can be repeated easily
 
-Dataset Information
+## Dataset Information
 
-· Source: Titanic dataset from GitHub (datasciencedojo repository)
-· Original Size: 891 rows × 12 columns
-· Key Columns: PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Cabin, Embarked
-· Data Issues:
-  · Age: 20% missing values
-  · Cabin: 77% missing values
-  · Embarked: Small number of missing values
-  · Potential duplicates and inconsistent formats
+- **Source:** Titanic dataset from GitHub (Data Science Dojo repository)  
+- **Original Size:** 891 rows × 12 columns  
+- **Key Columns:** PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Cabin, Embarked  
 
-2. Code Walkthrough
+**Data Issues:**  
+- **Age:** 20% missing values  
+- **Cabin:** 77% missing values  
+- **Embarked:** A few missing values  
+- **Other:** Possible duplicate rows and inconsistent formats  
 
-titanic_data_cleaning.ipynb (Main Workflow)
+---
 
-Task 1: Handle Missing Data
+## Code Walkthrough
 
+**Notebook:** `titanic_data_cleaning.ipynb` – Main Workflow  
+
+### Task 1 – Handle Missing Data
 ```python
-# Impute Age with median (robust to outliers)
-# Drop Cabin column (too many missing values for reliable imputation)
-# Fill Embarked missing values with mode (most common category)
-# Result: Cleaned DataFrame with no missing Age/Embarked values
-```
+# Fill missing Age values with median (good for data with outliers)
+# Remove Cabin column (too many missing values)
+# Fill missing Embarked values with the most common value (mode)
+# Result: DataFrame has no missing Age or Embarked values
 
-Task 2: Remove Duplicates
+Task 2 – Remove Duplicates
 
-```python
-# Check for exact duplicate rows across all columns
-# Remove duplicates while keeping first occurrence
-# In Titanic dataset: Typically finds 0 duplicates, maintains data integrity
-```
+# Check for exact duplicate rows
+# Remove duplicates, keep the first occurrence
+# Result: Usually 0 duplicates in Titanic dataset
 
-Task 3: Standardize Formats
+Task 3 – Standardize Formats
 
-```python
-# Convert Sex to lowercase ('male', 'female') for consistency
-# Round Fare to 2 decimal places for readability and analysis
-# Ensures uniform data format for modeling
-```
+# Convert 'Sex' column to lowercase ('male' or 'female')
+# Round 'Fare' values to 2 decimals for readability
+# Ensures all data is consistent and ready for analysis
 
-Task 4: Create Feature and Handle Outliers
+Task 4 – Create Feature and Handle Outliers
 
-```python
-# Create FamilySize = SibSp + Parch + 1 (includes passenger)
-# Identify Fare outliers using IQR method:
-#   - Q1 (25th percentile) = 7.91
-#   - Q3 (75th percentile) = 31.00
-#   - IQR = 23.09
-#   - Lower bound = Q1 - 1.5*IQR = -26.72 (capped at 0 for practicality)
-#   - Upper bound = Q3 + 1.5*IQR = 65.63
-# Cap outliers at bounds using .clip() method
-```
+# Create new feature: FamilySize = SibSp + Parch + 1 (including passenger)
+# Detect Fare outliers using IQR method:
+#   Q1 = 7.91
+#   Q3 = 31.00
+#   IQR = 23.09
+#   Lower bound = Q1 - 1.5*IQR = -26.72 (set to 0 for practicality)
+#   Upper bound = Q3 + 1.5*IQR = 65.63
+# Cap outliers within these bounds using .clip() method
 
-3. Best Practices & Improvements
+## Best Practices & Improvements
 
-Strengths
+### Strengths
+- Tasks are clearly separated with good documentation  
+- Used `df.copy()` to keep the original data safe  
+- Checked the data at each step to make sure everything is correct  
+- Used good imputation methods (median for Age, mode for Embarked)  
 
-· Clear task separation with proper documentation
-· Use of data copy (df.copy()) to preserve original
-· Comprehensive verification checks at each stage
-· Appropriate choice of imputation methods (median for Age, mode for Embarked)
+### Suggested Improvements
 
-Suggested Improvements
+**Code Quality**
+1. Add error handling with try-except for file loading and other operations  
+2. Fix column name typos (e.g., `$ibSp` → `SibSp`)  
+3. Make reusable functions for each cleaning step  
+4. Use a configuration file to store constants like URLs, column names, and bounds  
 
-Code Quality:
+**Data Processing**
+1. Improve Age imputation by using groups (like Pclass/Sex) instead of overall median  
+2. Extract deck info from Cabin before dropping the column (use the first letter)  
+3. Extract titles from Name (Mr., Mrs., Miss, etc.) as a new feature  
+4. Detect outliers more carefully by combining IQR with domain knowledge  
 
-1. Error Handling: Add try-except blocks for file loading and operations
-2. Column Name Consistency: Fix typos like $ibSp → SibSp
-3. Function Modularization: Create reusable functions for each cleaning step
-4. Configuration File: Store constants (URL, column names, bounds) separately
+**Documentation**
+1. Add a data dictionary explaining each column and what was changed  
+2. Include before/after charts for Age and Fare distributions  
+3. Keep a log of all assumptions made during cleaning
 
-Data Processing:
+## Project Structure
 
-1. Age Imputation Enhancement: Consider imputing by Pclass/Sex groups instead of overall median
-2. Cabin Feature: Extract deck information from Cabin before dropping (e.g., first letter)
-3. Title Extraction: Extract titles from Name (Mr., Mrs., Miss, etc.) as new feature
-4. More Robust Outlier Detection: Combine IQR with domain knowledge (max plausible fare)
+1. **Modular Design:** Split the project into separate parts for data loading, cleaning, and feature creation  
+2. **Testing:** Add small tests to check that each cleaning step works correctly  
+3. **Pipeline:** Make a workflow (like sklearn pipeline) so the cleaning can be repeated easily  
 
-Documentation:
+---
 
-1. Add Data Dictionary: Document each column's meaning and transformations
-2. Visualizations: Include before/after histograms for Age and Fare distributions
-3. Assumption Log: Document all assumptions made during cleaning
-
-Project Structure:
-
-1. Modular Design: Separate data loading, cleaning, feature engineering into modules
-2. Testing: Add unit tests for cleaning functions
-3. Pipeline: Create a sklearn-style pipeline for reproducible cleaning
-
-4. Complete README.md Draft
-
-```markdown
 # Titanic Data Cleaning & Feature Engineering Project
 
-##  Project Overview
-This project demonstrates professional data cleaning and feature engineering techniques using the classic Titanic dataset from Kaggle. The workflow addresses common real-world data issues including missing values, duplicates, inconsistent formats, and outliers while creating meaningful features for analysis and modeling.
-
-##  Objectives
-- **Clean raw data**: Handle missing values, remove duplicates, standardize formats
-- **Engineer features**: Create derived variables that enhance predictive power
-- **Manage outliers**: Identify and treat extreme values using statistical methods
-- **Prepare for analysis**: Produce a clean, analysis-ready dataset for visualization or machine learning
-- **Document process**: Create reproducible, well-documented cleaning workflow
+## Project Overview
+This project shows how to clean and improve the Titanic dataset from Kaggle. It fixes common data problems like missing values, duplicate rows, inconsistent formats, and outliers. It also creates new features that make the data ready for analysis or modeling.
+  
+## Objectives
+- **Clean raw data:** Fix missing values, remove duplicates, and standardize formats  
+- **Create features:** Make new columns (like FamilySize) to help with analysis or prediction  
+- **Handle outliers:** Find and treat extreme values using simple methods  
+- **Prepare for analysis:** Make the dataset ready for charts, visualization, or machine learning  
+- **Document process:** Write clear, step-by-step instructions so anyone can repeat the work
 
 ##  Skills Demonstrated
 - **Data Cleaning**: Imputation (median/mode), duplicate removal, format standardization
@@ -199,67 +189,12 @@ git clone https://github.com/yourusername/titanic-data-cleaning.git
 cd titanic-data-cleaning
 
 # Install dependencies
+## Dependencies
+
+To run the notebooks, install the following packages:
+
+```bash
 pip install -r requirements.txt
 
-# Launch Jupyter
+# Launch Jupyter Notebook
 jupyter notebook notebooks/titanic_data_cleaning.ipynb
-```
-
-Dependencies
-
-Create requirements.txt:
-
-```
-pandas>=2.2.0
-numpy>=2.0.0
-seaborn>=0.13.0
-matplotlib>=3.8.0
-jupyter>=1.0.0
-```
-
-Key Visualizations (Placeholders)
-
-Include charts showing:
-
-1. Age Distribution: Before/after imputation comparison
-2. Fare Distribution: With IQR bounds visualization
-3. FamilySize Distribution: Bar chart of family sizes
-4. Missing Data Heatmap: Visual representation of initial data gaps
-
-Results & Validation
-
-The final cleaned dataset meets all quality criteria:
-
-·  No missing values in Age or Embarked
-·  Cabin column removed (excessive missingness)
-·  No duplicate rows
-·  Consistent formats (lowercase Sex, 2-decimal Fare)
-·  FamilySize feature created successfully
-·  Fare outliers identified and capped (IQR method)
-
-Final Dataset: 891 rows × 12 columns
-Columns: PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Embarked, FamilySize
-
-Learning Resources
-
-· Video Tutorial: Data Cleaning in Pandas | Python Pandas Tutorials (referenced in project)
-· Dataset Source: Titanic Dataset on GitHub
-· Pandas Documentation: pandas.pydata.org
-
-Contributions
-
-This project follows standard data cleaning workflows. Feel free to:
-
-· Suggest additional cleaning techniques
-· Propose new feature engineering ideas
-· Improve visualization or documentation
-
-License
-
-MIT License - see LICENSE file for details
-
-Acknowledgments
-
-· Titanic dataset providers and Kaggle community
-· Data Science Dojo for dataset hosting
-· Pandas development team for excellent documentation
