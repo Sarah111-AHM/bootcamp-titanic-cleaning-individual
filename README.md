@@ -24,3 +24,6 @@ handling missing values, duplicates, inconsistent formats, outliers, and creatin
 - Pandas
 - Google Colab
   
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Pandas](https://img.shields.io/badge/Pandas-2.0.3-green)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
