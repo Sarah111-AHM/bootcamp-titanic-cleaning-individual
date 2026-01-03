@@ -30,3 +30,12 @@ Topics: pandas, data-cleaning, feature-engineering, data-visualization, explorat
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Pandas](https://img.shields.io/badge/Pandas-2.0.3-green)
 ![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
+
+---
+All data cleaning, feature engineering, and documentation decisions were made independently by me
+---
+## Project Reference / Learning Resource
+This project was developed as part of my training with ZAKey Bootcamp.
+The following video was used as a reference and guidance for the project:
+
+[Watch Project Explanation Video](https://youtu.be/I3FBJdiExcg?si=L-RTVtjRari6AqLR)
